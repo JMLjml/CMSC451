@@ -1,0 +1,8 @@
+# Compiled Source #
+###################
+*.class
+
+# IDE Files #
+###################
+*.classpath
+*.project
