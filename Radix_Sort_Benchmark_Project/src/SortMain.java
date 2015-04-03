@@ -17,31 +17,12 @@ public class SortMain {
   public static void main(String[] args) {
     System.out.println("Hello John. Would you like to play a game of thermo-nuclear war?");
     
-    Random randomGenerator = new Random();
+    int[] sizes = {100, 500, 1000, 5000, 10000, 25000, 50000, 100000, 250,000, 500000};
     
+    BenchmarkSorts benchmark = new BenchmarkSorts(sizes);
     
-    int[] list = new int[50];
+    benchmark.runSorts();
+    benchmark.displayReport();
     
-    for(int i = 0; i < list.length; i++) {
-      list[i] = randomGenerator.nextInt(100000);
-    }
-    
-    
-    
-    SortInterface sort = new RadixSort();
-    
-    
-    for(int i = 0; i < list.length; i++) {
-      System.out.print(list[i] + " ");
-    }
-    
-    System.out.println("\n");
-    
-    
-    sort.recursiveSort(list);
-    
-    for(int i = 0; i < list.length; i++) {
-      System.out.print(list[i] + " ");
-    }
   }
 }

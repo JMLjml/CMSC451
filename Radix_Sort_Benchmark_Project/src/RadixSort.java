@@ -10,8 +10,13 @@ import java.util.Vector;
  *
  */
 public class RadixSort implements SortInterface {
+  
+  // Bins for holding sorted binary values
   private ArrayList<Integer> bin0 = new ArrayList<Integer>();
   private ArrayList<Integer> bin1 = new ArrayList<Integer>();
+  
+  // Count the number of times we go through the sorting loop
+  private int count = 0;
 
   @Override
   public int[] recursiveSort(int[] list) {
@@ -95,9 +100,7 @@ public class RadixSort implements SortInterface {
       if(i != 0) {
         mask = mask << 1;
       }
-      
-      System.out.println("Mask = " + mask);
-      
+            
       // Iterate over each element of the list
       for(int j = 0; j < list.length; j++) {
         if((mask & list[j]) == mask) {
@@ -122,8 +125,7 @@ public class RadixSort implements SortInterface {
 
   @Override
   public int getCount() {
-    // TODO Auto-generated method stub
-    return 0;
+    return count;
   }
 
   @Override
