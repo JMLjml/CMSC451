@@ -17,15 +17,25 @@ public class RadixSort implements SortInterface {
   
   // Count the number of times we go through the sorting loop
   private int count = 0;
+  
+  
+  private long startTime, stopTime;
+  
 
   @Override
   public int[] recursiveSort(int[] list) {
     
+    // Start the clock
+    this.startTime = System.nanoTime();
+    
     // MSB sort, so starting with a high mask and working down to 0
     int mask = 65536;
     
-    // Run the first pass before calling recursively
+    // Run the first pass before calling recursively also increment count
     for(int i = 0; i < list.length; i++) {
+      
+      count++;
+      
       if((mask & list[i]) == mask) {
         bin1.add(list[i]);
       } else {
@@ -46,6 +56,9 @@ public class RadixSort implements SortInterface {
       }
     }   
     
+    // Stop the clock
+    this.stopTime = System.nanoTime();
+    
     return list;
   }
   
@@ -64,8 +77,12 @@ public class RadixSort implements SortInterface {
     // Advance and look at the next Least Significant bit
     mask  = mask >> 1;
     
-    // Run another sorting pass before calling recursively again    
+    // Run another sorting pass before calling recursively again
+    // This is where we increment count
     for(int i = 0; i < list.size(); i++) {
+      
+      count++;
+      
       if((mask & list.get(i)) == mask) {
         local_bin1.add(list.get(i));
       } else {
@@ -92,6 +109,10 @@ public class RadixSort implements SortInterface {
 
   @Override
   public int[] iterativeSort(int[] list) {
+    
+    // Start the clock
+    this.startTime = System.nanoTime();
+    
     int mask = 1;
     
     // Use a mask to iterate over each bit that we are looking at
@@ -102,7 +123,13 @@ public class RadixSort implements SortInterface {
       }
             
       // Iterate over each element of the list
+      // This is where we update count to reflect that we are looking at each
+      // list element again
+      
       for(int j = 0; j < list.length; j++) {
+        
+        count++; // increment the count for each element visited
+        
         if((mask & list[j]) == mask) {
           bin1.add(list[j]);
         } else {
@@ -119,6 +146,9 @@ public class RadixSort implements SortInterface {
         }
       }
     }
+    
+    // Stop the clock
+    this.stopTime = System.nanoTime();
        
     return list;
   }
@@ -130,8 +160,7 @@ public class RadixSort implements SortInterface {
 
   @Override
   public long getTime() {
-    // TODO Auto-generated method stub
-    return 0;
+    return this.stopTime - this.startTime;
   }
 
 }

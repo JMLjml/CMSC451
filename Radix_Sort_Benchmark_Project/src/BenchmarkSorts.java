@@ -13,6 +13,11 @@ import java.util.Random;
 public class BenchmarkSorts {
   private int[] sizes;
   private int[][][] testData;
+  private int[][] iterativeCountResults = new int[10][50];
+  private long[][] iterativeTimeResults = new long[10][50];
+  private int[][] recursiveCountResults = new int[10][50];
+  private long[][] recursiveTimeResults = new long[10][50];
+  
   
   public BenchmarkSorts(int[] sizes) {
     this.sizes = sizes;
@@ -64,6 +69,17 @@ public class BenchmarkSorts {
         
         sort.iterativeSort(list);
         
+        this.iterativeCountResults[i][j] = sort.getCount();
+        this.iterativeTimeResults[i][j] = sort.getTime();
+        
+        
+        if(j == 0) {
+          System.out.println("Count = " + sort.getCount());
+          System.out.println("Elapsed Time = " + (double)sort.getTime()/1000000);
+        }
+        
+        
+        
       //  System.out.println("\n");
         
 //        for(int k = 0; k < list.length; k++) {
@@ -90,6 +106,15 @@ public class BenchmarkSorts {
 //        }
         
         sort.recursiveSort(list);
+        
+        this.recursiveCountResults[i][j] = sort.getCount();
+        this.recursiveTimeResults[i][j] = sort.getTime();
+        
+        if(j == 0) {
+          System.out.println("Count = " + sort.getCount());
+          System.out.println("Elapsed Time = " + (double)sort.getTime()/1000000);
+        }
+        
         
    //     System.out.println("\n");
 //        
