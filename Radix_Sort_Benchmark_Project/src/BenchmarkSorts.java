@@ -1,4 +1,10 @@
+import java.awt.GridLayout;
 import java.util.Random;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 /**
  * 
@@ -20,6 +26,8 @@ public class BenchmarkSorts {
   private long[][] iterativeTimeResults = new long[this.TESTCASES][this.TRIALS];
   private int[][] recursiveCountResults = new int[this.TESTCASES][this.TRIALS];
   private long[][] recursiveTimeResults = new long[this.TESTCASES][this.TRIALS];
+  
+  private Object[][] stats = new Object[this.TESTCASES][9];
   
   
   public BenchmarkSorts(int[] sizes) {
@@ -107,6 +115,29 @@ public class BenchmarkSorts {
   
   
   public void displayReport() {
+    calculateStats();
+    
+    String[] columnNames = {"N", "Mean Iterative Count", "Iterative Count Standard Deviation",
+        "Mean Iterative Time", "Iterative Time Standard Deviation", "Mean Recursive Count", 
+        "Recursive Count Standard Deviation", "Mean Recursive Time", "Recursive Time Standard Deviation"
+    };
+    
+    JPanel jpanel = new JPanel(new GridLayout(1,0));
+    
+    final JTable table = new JTable(this.stats, columnNames);
+    JScrollPane scrollpane = new JScrollPane(table);
+    table.setFillsViewportHeight(true);
+    
+    jpanel.add(scrollpane);
+    
+    jpanel.setOpaque(true);
+    
+    JFrame frame = new JFrame("Test Results");
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setContentPane(jpanel);
+    
+    frame.pack();
+    frame.setVisible(true);
     
   }
   
@@ -164,6 +195,27 @@ public class BenchmarkSorts {
     sum = sum / list.length;
     
     return Math.sqrt(sum);    
+  }
+  
+  
+  private void calculateStats() {
+    for(int i = 0; i < this.TESTCASES; i++) {
+      // Test Cases
+      this.stats[i][0] = this.sizes[i];
+      
+      // Iterative Results
+      this.stats[i][1] = mean(this.iterativeCountResults[i]);
+      this.stats[i][2] = standardDeviation(this.iterativeCountResults[i], (double)this.stats[i][1]);
+      this.stats[i][3] = mean(this.iterativeTimeResults[i]);
+      this.stats[i][4] = standardDeviation(this.iterativeTimeResults[i], (double)this.stats[i][3]);
+      
+      // Recursive Results
+      this.stats[i][5] = mean(this.recursiveCountResults[i]);
+      this.stats[i][6] = standardDeviation(this.recursiveCountResults[i], (double)this.stats[i][5]);
+      this.stats[i][7] = mean(this.recursiveTimeResults[i]);
+      this.stats[i][8] = standardDeviation(this.recursiveTimeResults[i], (double)this.stats[i][7]);
+    }
+    
   }
   
   
