@@ -1,5 +1,8 @@
 /**
+ * SortInterface.java
  * 
+ * Simple interface for sorting classes. Used by the benchmarkSorts class to call
+ * sorting methods for testing.
  */
 
 /**

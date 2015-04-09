@@ -1,8 +1,13 @@
 import java.util.ArrayList;
-import java.util.Vector;
 
 /**
+ * RadixSort.java
  * 
+ * A class for implementing a RadixSort both iteratively, and recursively.
+ * Implements the SortInterface so it can be called by the benchmarkSorts class.
+ * 
+ * Designed to be used on integer values between 0 and 99999. Was modeled to be 
+ * able to sort zip codes.
  */
 
 /**
@@ -18,10 +23,16 @@ public class RadixSort implements SortInterface {
   // Count the number of times we go through the sorting loop
   private int count = 0;
   
-  
+  // Used to determine how long a sort took
   private long startTime, stopTime;
   
 
+  /* Implement the recursiveSort methods from the SortInterface. Calls a helper
+   * recursiveSort function after the first pass. Sort from Most Significant Digit
+   * to Least Significant Digit.
+   * 
+   * @see SortInterface#recursiveSort(int[])
+   */     
   @Override
   public int[] recursiveSort(int[] list) {
     
@@ -36,6 +47,8 @@ public class RadixSort implements SortInterface {
       
       count++;
       
+      /* Use the mask to look at each digit, if we get a 1 send the number to the
+         bin1 ArrayList, otherwise send it to bin0. */
       if((mask & list[i]) == mask) {
         bin1.add(list[i]);
       } else {
@@ -83,6 +96,8 @@ public class RadixSort implements SortInterface {
       
       count++;
       
+      /* Use the mask to look at each digit, if we get a 1 send the number to the
+      bin1 ArrayList, otherwise send it to bin0. */
       if((mask & list.get(i)) == mask) {
         local_bin1.add(list.get(i));
       } else {
@@ -107,6 +122,12 @@ public class RadixSort implements SortInterface {
   }
   
 
+  /* Implements the interetiveSort method from the SortInterface. Uses a mask
+   * to look at each bit and sort it into the correct bin before recombining into 
+   * a single list.
+   * (non-Javadoc)
+   * @see SortInterface#iterativeSort(int[])
+   */
   @Override
   public int[] iterativeSort(int[] list) {
     
@@ -118,6 +139,7 @@ public class RadixSort implements SortInterface {
     // Use a mask to iterate over each bit that we are looking at
     for(int i = 0; i < 17; i++) {
       
+      // Increment the Mask each time we run through the for loop 
       if(i != 0) {
         mask = mask << 1;
       }
@@ -130,6 +152,7 @@ public class RadixSort implements SortInterface {
         
         count++; // increment the count for each element visited
         
+        // Use the mask to select the correct bin
         if((mask & list[j]) == mask) {
           bin1.add(list[j]);
         } else {
@@ -162,5 +185,4 @@ public class RadixSort implements SortInterface {
   public long getTime() {
     return this.stopTime - this.startTime;
   }
-
 }

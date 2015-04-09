@@ -1,5 +1,8 @@
 /**
+ * UnsortedException.java
  * 
+ * Simple exception class used by the benchmarkSorts class. Is thrown when a list
+ * is unexpectedly unsorted.
  */
 
 /**
