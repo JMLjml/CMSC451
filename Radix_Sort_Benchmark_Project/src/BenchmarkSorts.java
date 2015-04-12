@@ -145,7 +145,10 @@ public class BenchmarkSorts {
       }
       
       //Print new lines to each file for the next row of data
-      this.iCountOutput.print("\n");      
+      this.iCountOutput.print("\n");
+      this.iTimeOutput.print("\n");
+      this.rCountOutput.print("\n");
+      this.rTimeOutput.print("\n");
     }
     
     System.out.println("\nTests Complete.");
@@ -165,8 +168,8 @@ public class BenchmarkSorts {
     calculateStats();
     
     String[] columnNames = {"N", "Mean Iterative Count", "Iterative Count Standard Deviation",
-        "Mean Iterative Time", "Iterative Time Standard Deviation", "Mean Recursive Count", 
-        "Recursive Count Standard Deviation", "Mean Recursive Time", "Recursive Time Standard Deviation"
+        "Mean Iterative Time (ms)", "Iterative Time Standard Deviation (ms)", "Mean Recursive Count", 
+        "Recursive Count Standard Deviation", "Mean Recursive Time (ms)", "Recursive Time Standard Deviation(ms)"
     };
     
     JPanel jpanel = new JPanel(new GridLayout(1,0));
@@ -249,7 +252,7 @@ public class BenchmarkSorts {
   }
   
   /* Run through each of the results arrays and calculate the stats for each trial.
-   * Store the results in the stats array */ 
+   * Store the results in the stats array. Convert time to milliseconds */ 
   private void calculateStats() {
     for(int i = 0; i < this.TESTCASES; i++) {
       // Test Cases
@@ -258,14 +261,14 @@ public class BenchmarkSorts {
       // Iterative Results
       this.stats[i][1] = mean(this.iterativeCountResults[i]);
       this.stats[i][2] = standardDeviation(this.iterativeCountResults[i], (double)this.stats[i][1]);
-      this.stats[i][3] = mean(this.iterativeTimeResults[i]);
-      this.stats[i][4] = standardDeviation(this.iterativeTimeResults[i], (double)this.stats[i][3]);
+      this.stats[i][3] = mean(this.iterativeTimeResults[i]) / 100000;
+      this.stats[i][4] = standardDeviation(this.iterativeTimeResults[i], mean(this.iterativeTimeResults[i])) / 100000;
       
       // Recursive Results
       this.stats[i][5] = mean(this.recursiveCountResults[i]);
       this.stats[i][6] = standardDeviation(this.recursiveCountResults[i], (double)this.stats[i][5]);
-      this.stats[i][7] = mean(this.recursiveTimeResults[i]);
-      this.stats[i][8] = standardDeviation(this.recursiveTimeResults[i], (double)this.stats[i][7]);
+      this.stats[i][7] = mean(this.recursiveTimeResults[i]) / 100000;
+      this.stats[i][8] = standardDeviation(this.recursiveTimeResults[i], mean(this.recursiveTimeResults[i])) / 100000;
     } 
   }  
 }
