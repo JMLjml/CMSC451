@@ -1,5 +1,7 @@
 import java.util.Random;
 import java.awt.GridLayout;
+import java.io.FileNotFoundException;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -32,6 +34,10 @@ public class BenchmarkSorts {
   private long[][] recursiveTimeResults = new long[this.TESTCASES][this.TRIALS];
   private Object[][] stats = new Object[this.TESTCASES][9];
   
+  // File IO stuff for storing test results for project 2
+  java.io.File iCountFile, iTimeFile, rCountFile, rTimeFile;
+  java.io.PrintWriter iCountOutput, iTimeOutput, rCountOutput, rTimeOutput;
+  
   // Constructor  
   public BenchmarkSorts(int[] sizes) {
     this.sizes = sizes;
@@ -58,15 +64,29 @@ public class BenchmarkSorts {
   }
   
     
-  // Run the sorts and store the results in the array structures
-  public void runSorts() {
+  // Run the sorts and store the results in the array structures and files
+  public void runSorts() throws FileNotFoundException {
+    
+    // Setup files for writing
+    this.iCountFile = new java.io.File("iCountFile.dat");
+    this.iTimeFile = new java.io.File("iTimeFile.dat");
+    this.rCountFile = new java.io.File("rCountFile.dat");
+    this.rTimeFile = new java.io.File("rTimeFile.dat");    
+    
+    this.iCountOutput = new java.io.PrintWriter(this.iCountFile);
+    this.iTimeOutput = new java.io.PrintWriter(this.iTimeFile);
+    this.rCountOutput = new java.io.PrintWriter(this.rCountFile);
+    this.rTimeOutput = new java.io.PrintWriter(this.rTimeFile);    
+        
     
     System.out.print("Starting Tests");
     
+    // Loop through each of the testCases and benchmark the sorts
     for(int i = 0; i < this.TESTCASES; i++) {
       
       System.out.println("\nSorting Lists of size " + this.sizes[i] + ".");
       
+      // Repeat the sort for this.TRIALS many times
       for(int j = 0; j < this.TRIALS; j++) {
         
         // Create a fresh RadixSort
@@ -78,9 +98,14 @@ public class BenchmarkSorts {
         // Iteratively sort the list
         sort.iterativeSort(list);
         
-        // Store the Results
+        // Store the Results in the results array
         this.iterativeCountResults[i][j] = sort.getCount();
         this.iterativeTimeResults[i][j] = sort.getTime();
+        
+        // Write the results to the output files
+        this.iCountOutput.print(sort.getCount() + " ");
+        this.iTimeOutput.print(sort.getTime() + " ");
+        
         
         // Verify that the iterativeSort was successful        
         try {
@@ -99,9 +124,13 @@ public class BenchmarkSorts {
         // Recursively sort the list
         sort.recursiveSort(list);
         
-        // Store the results
+        // Store the results in the results array
         this.recursiveCountResults[i][j] = sort.getCount();
         this.recursiveTimeResults[i][j] = sort.getTime();
+        
+        // Write the results to the output files
+        this.rCountOutput.print(sort.getCount() + " ");
+        this.rTimeOutput.print(sort.getTime() + " ");
         
         // Verify that the recursiveSort was successful 
         try {
@@ -114,9 +143,18 @@ public class BenchmarkSorts {
         // print a dot after each trial to show progress in the console window
         System.out.print("*");               
       }
+      
+      //Print new lines to each file for the next row of data
+      this.iCountOutput.print("\n");      
     }
     
-    System.out.println("\nTests Complete.");    
+    System.out.println("\nTests Complete.");
+    
+    // Close the files
+    this.iCountOutput.close();
+    this.iTimeOutput.close();
+    this.rCountOutput.close();
+    this.rTimeOutput.close();    
   }
   
   
@@ -211,7 +249,7 @@ public class BenchmarkSorts {
   }
   
   /* Run through each of the results arrays and calculate the stats for each trial.
-   * Store the results in the stats array. */
+   * Store the results in the stats array */ 
   private void calculateStats() {
     for(int i = 0; i < this.TESTCASES; i++) {
       // Test Cases
@@ -228,6 +266,6 @@ public class BenchmarkSorts {
       this.stats[i][6] = standardDeviation(this.recursiveCountResults[i], (double)this.stats[i][5]);
       this.stats[i][7] = mean(this.recursiveTimeResults[i]);
       this.stats[i][8] = standardDeviation(this.recursiveTimeResults[i], (double)this.stats[i][7]);
-    }    
-  }
+    } 
+  }  
 }
