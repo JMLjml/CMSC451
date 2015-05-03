@@ -13,15 +13,32 @@ clear all;
 % Read in file data for analysis
 iTime = dlmread('iTimeFile.dat');
 rTime = dlmread('rTimeFile.dat');
+iCount = dlmread('iCountFile.dat');
+rCount = dlmread('rCountFile.dat');
 
-
+% The counts are the same for each test, so read in the first one from eactest size and 
+% you get the number you need
+iCountVector = iCount(:,1);
+rCountVector = rCount(:,1);
 
 % N should be 50, create a vector n to plot against
 N = length(iTime);
 n = [1:1:N];
 
+% arrays for holding the mean for each test size, will be plotted later
+iMeanTime = zeros(1, 10);
+rMeanTime = zeros(1, 10);
 
-% figures 1 - 10 will be the iterative time data for each test case, 10 total cases
+% arry for holding the sizes of the test cases, will be used for plotting later
+sizes = [128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536];
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  Iterative Plots
+%  figures 1 - 10 will be the iterative time data for each test case, 10 total cases
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 figure(1)
 hold on;
 
@@ -35,6 +52,7 @@ title('Iterative Sort N = 128', 'fontsize', 14);
 % calculate the mean and std dev
 s = std(row) / 100000;
 m = sum(row) / N / 100000;
+iMeanTime(1) = m;
 
 % plot the mean
 plot(25, m, 'marker', 'v', 'markersize', 10);
@@ -61,6 +79,7 @@ title('Iterative Sort N = 256', 'fontsize', 14);
 % calculate the mean and std dev
 s = std(row) / 100000;
 m = sum(row) / N / 100000;
+iMeanTime(2) = m;
 
 % plot the mean
 plot(25, m, 'marker', 'v', 'markersize', 10);
@@ -87,6 +106,7 @@ title('Iterative Sort N = 512', 'fontsize', 14);
 % calculate the mean and std dev
 s = std(row) / 100000;
 m = sum(row) / N / 100000;
+iMeanTime(3) = m;
 
 % plot the mean
 plot(25, m, 'marker', 'v', 'markersize', 10);
@@ -114,6 +134,7 @@ title('Iterative Sort N = 1,024', 'fontsize', 14);
 % calculate the mean and std dev
 s = std(row) / 100000;
 m = sum(row) / N / 100000;
+iMeanTime(4) = m;
 
 % plot the mean
 plot(25, m, 'marker', 'v', 'markersize', 10);
@@ -140,6 +161,7 @@ title('Iterative Sort N = 2,048', 'fontsize', 14);
 % calculate the mean and std dev
 s = std(row) / 100000;
 m = sum(row) / N / 100000;
+iMeanTime(5) = m;
 
 % plot the mean
 plot(25, m, 'marker', 'v', 'markersize', 10);
@@ -167,6 +189,7 @@ title('Iterative Sort N = 4,096', 'fontsize', 14);
 % calculate the mean and std dev
 s = std(row) / 100000;
 m = sum(row) / N / 100000;
+iMeanTime(6) = m;
 
 % plot the mean
 plot(25, m, 'marker', 'v', 'markersize', 10);
@@ -194,6 +217,7 @@ title('Iterative Sort N = 8,192', 'fontsize', 14);
 % calculate the mean and std dev
 s = std(row) / 100000;
 m = sum(row) / N / 100000;
+iMeanTime(7) = m;
 
 % plot the mean
 plot(25, m, 'marker', 'v', 'markersize', 10);
@@ -221,6 +245,7 @@ title('Iterative Sort N = 16,384', 'fontsize', 14);
 % calculate the mean and std dev
 s = std(row) / 100000;
 m = sum(row) / N / 100000;
+iMeanTime(8) = m;
 
 % plot the mean
 plot(25, m, 'marker', 'v', 'markersize', 10);
@@ -248,6 +273,7 @@ title('Iterative Sort N = 32,768', 'fontsize', 14);
 % calculate the mean and std dev
 s = std(row) / 100000;
 m = sum(row) / N / 100000;
+iMeanTime(9) = m;
 
 % plot the mean
 plot(25, m, 'marker', 'v', 'markersize', 10);
@@ -275,6 +301,7 @@ title('Iterative Sort N = 65,536', 'fontsize', 14);
 % calculate the mean and std dev
 s = std(row) / 100000;
 m = sum(row) / N / 100000;
+iMeanTime(10) = m;
 
 % plot the mean
 plot(25, m, 'marker', 'v', 'markersize', 10);
@@ -292,9 +319,13 @@ hold off;
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  Recursive Plots
+%  figures 11 - 20 will be the recursive time data for each test case, 10 total cases
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-% figures 11 - 20 will be the recursive time data for each test case, 10 total cases
 figure(11)
 hold on;
 
@@ -308,6 +339,7 @@ title('Recursive Sort N = 128', 'fontsize', 14);
 % calculate the mean and std dev
 s = std(row) / 100000;
 m = sum(row) / N / 100000;
+rMeanTime(1) = m;
 
 % plot the mean
 plot(25, m, 'marker', 'v', 'markersize', 10);
@@ -334,6 +366,7 @@ title('Recursive Sort N = 256', 'fontsize', 14);
 % calculate the mean and std dev
 s = std(row) / 100000;
 m = sum(row) / N / 100000;
+rMeanTime(2) = m;
 
 % plot the mean
 plot(25, m, 'marker', 'v', 'markersize', 10);
@@ -360,6 +393,7 @@ title('Recursive Sort N = 512', 'fontsize', 14);
 % calculate the mean and std dev
 s = std(row) / 100000;
 m = sum(row) / N / 100000;
+rMeanTime(3) = m;
 
 % plot the mean
 plot(25, m, 'marker', 'v', 'markersize', 10);
@@ -387,6 +421,7 @@ title('Recursive Sort N = 1,024', 'fontsize', 14);
 % calculate the mean and std dev
 s = std(row) / 100000;
 m = sum(row) / N / 100000;
+rMeanTime(4) = m;
 
 % plot the mean
 plot(25, m, 'marker', 'v', 'markersize', 10);
@@ -413,6 +448,7 @@ title('Recursive Sort N = 2,048', 'fontsize', 14);
 % calculate the mean and std dev
 s = std(row) / 100000;
 m = sum(row) / N / 100000;
+rMeanTime(5) = m;
 
 % plot the mean
 plot(25, m, 'marker', 'v', 'markersize', 10);
@@ -440,6 +476,7 @@ title('Recursive Sort N = 4,096', 'fontsize', 14);
 % calculate the mean and std dev
 s = std(row) / 100000;
 m = sum(row) / N / 100000;
+rMeanTime(6) = m;
 
 % plot the mean
 plot(25, m, 'marker', 'v', 'markersize', 10);
@@ -467,6 +504,7 @@ title('Recursive Sort N = 8,192', 'fontsize', 14);
 % calculate the mean and std dev
 s = std(row) / 100000;
 m = sum(row) / N / 100000;
+rMeanTime(7) = m;
 
 % plot the mean
 plot(25, m, 'marker', 'v', 'markersize', 10);
@@ -494,6 +532,7 @@ title('Recursive Sort N = 16,384', 'fontsize', 14);
 % calculate the mean and std dev
 s = std(row) / 100000;
 m = sum(row) / N / 100000;
+rMeanTime(8) = m;
 
 % plot the mean
 plot(25, m, 'marker', 'v', 'markersize', 10);
@@ -521,6 +560,7 @@ title('Recursive Sort N = 32,768', 'fontsize', 14);
 % calculate the mean and std dev
 s = std(row) / 100000;
 m = sum(row) / N / 100000;
+rMeanTime(9) = m;
 
 % plot the mean
 plot(25, m, 'marker', 'v', 'markersize', 10);
@@ -548,6 +588,7 @@ title('Recursive Sort N = 65,536', 'fontsize', 14);
 % calculate the mean and std dev
 s = std(row) / 100000;
 m = sum(row) / N / 100000;
+rMeanTime(10) = m;
 
 % plot the mean
 plot(25, m, 'marker', 'v', 'markersize', 10);
@@ -557,4 +598,38 @@ plot(n, m + s, 'o', 'color', 'g');
 plot(n, m - s, 'o', 'color', 'g');
 
 legend('Time (ms)', 'mean', 'Std Dev');
+hold off;
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  Summary Plot
+%  figure 21 Show the average time for each test size, both iterative and recursive
+%  figure 22 Show the count for each test size, both iterative and recursive
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+figure(21)
+hold on;
+
+% plot the time data
+plot(sizes, iMeanTime, 'color', 'm');
+plot(sizes, rMeanTime, 'color', 'b');
+xlabel('Test Size (n)', 'fontsize', 14);
+ylabel('Mean Time (ms)', 'fontsize', 14);
+title('Average Time For Each Test Size', 'fontsize', 14);
+legend('Iterative Time (ms)', 'Recursive Time (ms)');
+hold off;
+
+
+figure(22)
+hold on;
+
+% plot the count data
+plot(sizes, iCountVector, 'color', 'm');
+plot(sizes, rCountVector, 'color', 'b');
+xlabel('Test Size (n)', 'fontsize', 14);
+ylabel('Operation Count', 'fontsize', 14);
+title('Operation Count For Each Test Size', 'fontsize', 14);
+legend('Iterative Count', 'Recursive Count');
 hold off;
